@@ -17,6 +17,13 @@ class App extends Component {
       albums: []
     }
   }
+  checUser(user) {
+    if (user) {
+      this.setState({ user });
+    }
+    else
+      this.setState({ user: null })
+  }
 
   componentWillMount() {
     firebase.initializeApp(
@@ -25,10 +32,11 @@ class App extends Component {
         authDomain: "mija-db.firebaseapp.com",
         databaseURL: "https://mija-db.firebaseio.com/",
         projectId: "mija-db",
-        storageBucket: "",
+        storageBucket: "mija-db.appspot.com",
         messagingSenderId: "855481637220"
       }
     )
+    firebase.auth().onAuthStateChanged(user => this.checUser(user))
   }
   render() {
     return (
@@ -38,7 +46,7 @@ class App extends Component {
             <React.Fragment>
               <nav>
                 <div className="nav-wrapper">
-                  <Link className="brand-logo left" to="/" style={{left:'5%'}}>Ѧ</Link>
+                  <Link className="brand-logo left" to="/" style={{ left: '5%' }}>Ѧ</Link>
                   <ul className="right">
                     {this.state.user === 'notVerified' ? null : this.state.user ?
                       <React.Fragment>
