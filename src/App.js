@@ -17,36 +17,18 @@ class App extends Component {
       albums: []
     }
   }
-  checUser(user) {
-    if (user) {
-      this.setState({ user });
-      firebase.database().ref(`/developers/${firebase.auth().currentUser.uid}/albums`)
-        .on('value', snapshot => {
-          let albums = [];
-          if (snapshot.val()) {
-            Object.keys(snapshot.val()).forEach(key => {
-              albums.push({ ...snapshot.val()[key], uid: key })
-            })
-          }
-          this.setState({ albums })
-        })
-    }
-    else
-      this.setState({ user: null })
-  }
 
   componentWillMount() {
     firebase.initializeApp(
       {
-        apiKey: "AIzaSyA3zhbfkFSDbXkBRH7CJWjoU-zMHRlfb6Q",
-        authDomain: "mija-38d43.firebaseapp.com",
-        databaseURL: "https://mija-38d43.firebaseio.com",
-        projectId: "mija-38d43",
-        storageBucket: "mija-38d43.appspot.com",
-        messagingSenderId: "764987320908"
+        apiKey: "AIzaSyC3wHrgXYf6yPjpA_H8u-3mXjwBe6hnOeQ",
+        authDomain: "mija-db.firebaseapp.com",
+        databaseURL: "https://mija-db.firebaseio.com/",
+        projectId: "mija-db",
+        storageBucket: "",
+        messagingSenderId: "855481637220"
       }
     )
-    firebase.auth().onAuthStateChanged(user => this.checUser(user))
   }
   render() {
     return (
