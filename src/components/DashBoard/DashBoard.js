@@ -49,39 +49,47 @@ class DashBoard extends React.Component {
         this.setState({ imageProgress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100 });
     }
     pushVideo(name, video, type) {
-        var uploadTask = firebase.storage().ref('/videos/').child(`${name}.jpg`).put(video);
+        if (name !== "" && type !== {}) {
+            var uploadTask = firebase.storage().ref('/videos/').child(`${name}.jpg`).put(video);
 
-        uploadTask.on('state_changed', snapshot => this.videoProgressManage(snapshot), () => { },
-            () => {
-                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    firebase.database().ref('/videos/').push({
-                        name: name,
-                        storageName: uploadTask.snapshot.ref.name,
-                        link: downloadURL,
-                        size: type
-                    })
-                        .then(() => {
-                            this.setState({ addModalVideoVisible: false })
+            uploadTask.on('state_changed', snapshot => this.videoProgressManage(snapshot), () => { },
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        firebase.database().ref('/videos/').push({
+                            name: name,
+                            storageName: uploadTask.snapshot.ref.name,
+                            link: downloadURL,
+                            size: type
                         })
-                })
-            });
+                            .then(() => {
+                                this.setState({ addModalVideoVisible: false })
+                            })
+                    })
+                });
+        }
+        else
+            alert("Please enter the required information!");
     }
     pushImage(name, image) {
-        var uploadTask = firebase.storage().ref('/images/').child(`${name}.jpg`).put(image);
+        if (name !== "") {
+            var uploadTask = firebase.storage().ref('/images/').child(`${name}.jpg`).put(image);
 
-        uploadTask.on('state_changed', snapshot => this.imageProgressManage(snapshot), () => { },
-            () => {
-                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    firebase.database().ref('/images/').push({
-                        name: name,
-                        storageName: uploadTask.snapshot.ref.name,
-                        link: downloadURL,
-                    })
-                        .then(() => {
-                            this.setState({ addImageModal: false })
+            uploadTask.on('state_changed', snapshot => this.imageProgressManage(snapshot), () => { },
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        firebase.database().ref('/images/').push({
+                            name: name,
+                            storageName: uploadTask.snapshot.ref.name,
+                            link: downloadURL,
                         })
-                })
-            });
+                            .then(() => {
+                                this.setState({ addImageModal: false })
+                            })
+                    })
+                });
+        }
+        else
+            alert("Please enter a name!");
     }
     editVideo(name, type, key) {
         firebase.database().ref(`/videos/${key}/name`)
