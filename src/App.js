@@ -28,12 +28,7 @@ class App extends Component {
   componentWillMount() {
     firebase.initializeApp(
       {
-        apiKey: "AIzaSyC3wHrgXYf6yPjpA_H8u-3mXjwBe6hnOeQ",
-        authDomain: "mija-db.firebaseapp.com",
-        databaseURL: "https://mija-db.firebaseio.com/",
-        projectId: "mija-db",
-        storageBucket: "mija-db.appspot.com",
-        messagingSenderId: "855481637220"
+        //firebase key
       }
     )
     firebase.auth().onAuthStateChanged(user => this.checUser(user))
